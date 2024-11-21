@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiple Image Sliders with Auto Wrap</title>
+  <style>
+    /* 使用 Grid 布局，使每行显示两个窗口，超过两个自动换行 */
+    .slider-container-wrapper {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 每行显示两个窗口 */
+      gap: 20px; /* 每个窗口之间的间距 */
+      justify-items: center; /* 中央对齐每个窗口 */
+      grid-auto-rows: 400px; /* 确保每个窗口的高度一致 */
+    }
+
+    .image-container {
+      position: relative;
+      width: 700px;
+      height: 400px;
+      overflow: hidden;
+      cursor: ew-resize;
+    }
+
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+      position: absolute;
+      top: 0;
+    }
+
+    .left-image {
+      left: 0;
+    }
+
+    .right-image {
+      left: 0;
+      clip-path: inset(0 100% 0 0);
+    }
+
+    .left-image-title {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 24px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 5px 10px;
+      z-index: 10;
+      transition: opacity 0.3s ease;
+    }
+
+    .right-image-title {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 24px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 5px 10px;
+      z-index: 10;
+      transition: opacity 0.3s ease;
+    }
+
+    .slider-container {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 2px;
+      background-image: linear-gradient(to bottom, #fefefe 0%, #fdf9f9 100%);
+      box-shadow: 0 0 5px rgba(243, 240, 240, 0.5);
+      z-index: 10;
+      cursor: ew-resize;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 包裹所有窗口的容器 -->
+  <div class="slider-container-wrapper">
+    <!-- 第1组图片 -->
+    <div class="image-container" id="group1">
+      <img src="/home/descfly/data/models/bicycle/test/ours_30000/gt/00001.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle1">ground truth</div>
+      <img src="/home/descfly/data/models/bicycle/test/ours_30000/renders/00001.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle1">render</div>
+      <div class="slider-container" id="imageScroll1"></div>
+    </div>
+
+    <!-- 第2组图片 -->
+    <div class="image-container" id="group2">
+      <img src="/home/descfly/data/models/bicycle/test/ours_30000/gt/00018.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle2">ground truth</div>
+      <img src="/home/descfly/data/models/bicycle/test/ours_30000/renders/00018.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle2">render</div>
+      <div class="slider-container" id="imageScroll2"></div>
+    </div>
+
+    <!-- 第3组图片 -->
+    <div class="image-container" id="group3">
+      <img src="/home/descfly/data/models/bonsai/test/ours_30000/gt/00001.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle3">ground truth</div>
+      <img src="/home/descfly/data/models/bonsai/test/ours_30000/renders/00001.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle3">render</div>
+      <div class="slider-container" id="imageScroll3"></div>
+    </div>
+
+    <!-- 第4组图片 -->
+    <div class="image-container" id="group4">
+      <img src="/home/descfly/data/models/bonsai/test/ours_30000/gt/00018.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle4">ground truth</div>
+      <img src="/home/descfly/data/models/bonsai/test/ours_30000/renders/00018.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle4">render</div>
+      <div class="slider-container" id="imageScroll4"></div>
+    </div>
+
+    <!-- 第5组图片 -->
+    <div class="image-container" id="group5">
+      <img src="/home/descfly/data/models/counter/test/ours_30000/gt/00001.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle5">ground truth</div>
+      <img src="/home/descfly/data/models/counter/test/ours_30000/renders/00001.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle5">render</div>
+      <div class="slider-container" id="imageScroll5"></div>
+    </div>
+
+    <!-- 第6组图片 -->
+    <div class="image-container" id="group6">
+      <img src="/home/descfly/data/models/counter/test/ours_30000/gt/00018.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle6">ground truth</div>
+      <img src="/home/descfly/data/models/counter/test/ours_30000/renders/00018.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle6">render</div>
+      <div class="slider-container" id="imageScroll6"></div>
+    </div>
+  
+
+    <!-- 第7组图片 -->
+    <div class="image-container" id="group7">
+      <img src="/home/descfly/data/models/drjohnson/test/ours_30000/gt/00001.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle7">ground truth</div>
+      <img src="/home/descfly/data/models/drjohnson/test/ours_30000/renders/00001.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle7">render</div>
+      <div class="slider-container" id="imageScroll7"></div>
+    </div>
+
+    <!-- 第8组图片 -->
+    <div class="image-container" id="group8">
+      <img src="/home/descfly/data/models/drjohnson/test/ours_30000/gt/00018.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle8">ground truth</div>
+      <img src="/home/descfly/data/models/drjohnson/test/ours_30000/renders/00018.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle8">render</div>
+      <div class="slider-container" id="imageScroll8"></div>
+    </div>
+
+    <!-- 第9组图片 -->
+    <div class="image-container" id="group9">
+      <img src="/home/descfly/data/models/flowers/test/ours_30000/gt/00001.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle9">ground truth</div>
+      <img src="/home/descfly/data/models/flowers/test/ours_30000/renders/00001.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle9">render</div>
+      <div class="slider-container" id="imageScroll9"></div>
+    </div>
+
+    <!-- 第10组图片 -->
+    <div class="image-container" id="group10">
+      <img src="/home/descfly/data/models/flowers/test/ours_30000/gt/00018.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle10">ground truth</div>
+      <img src="/home/descfly/data/models/flowers/test/ours_30000/renders/00018.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle10">render</div>
+      <div class="slider-container" id="imageScroll10"></div>
+    </div>
+
+    <!-- 第11组图片 -->
+    <div class="image-container" id="group11">
+      <img src="/home/descfly/data/models/garden/test/ours_30000/gt/00001.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle11">ground truth</div>
+      <img src="/home/descfly/data/models/garden/test/ours_30000/renders/00001.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle11">render</div>
+      <div class="slider-container" id="imageScroll11"></div>
+    </div>
+  
+      <!-- 第12组图片 -->
+    <div class="image-container" id="group12">
+      <img src="/home/descfly/data/models/garden/test/ours_30000/gt/00018.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle12">ground truth</div>
+      <img src="/home/descfly/data/models/garden/test/ours_30000/renders/00018.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle12">render</div>
+      <div class="slider-container" id="imageScroll12"></div>
+    </div>
+
+    <!-- 第13组图片 -->
+    <div class="image-container" id="group13">
+      <img src="/home/descfly/data/models/kitchen/test/ours_30000/gt/00001.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle13">ground truth</div>
+      <img src="/home/descfly/data/models/kitchen/test/ours_30000/renders/00001.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle13">render</div>
+      <div class="slider-container" id="imageScroll13"></div>
+      </div>
+  
+      <!-- 第14组图片 -->
+    <div class="image-container" id="group14">
+      <img src="/home/descfly/data/models/kitchen/test/ours_30000/gt/00018.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle14">ground truth</div>
+      <img src="/home/descfly/data/models/kitchen/test/ours_30000/renders/00018.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle14">render</div>
+      <div class="slider-container" id="imageScroll14"></div>
+    </div>
+    
+    <!-- 第15组图片 -->
+    <div class="image-container" id="group15">
+      <img src="/home/descfly/data/models/playroom/test/ours_30000/gt/00015.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle15">ground truth</div>
+      <img src="/home/descfly/data/models/playroom/test/ours_30000/renders/00015.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle15">render</div>
+      <div class="slider-container" id="imageScroll15"></div>
+      </div>
+  
+    <!-- 第16组图片 -->
+    <div class="image-container" id="group16">
+      <img src="/home/descfly/data/models/playroom/test/ours_30000/gt/00022.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle16">ground truth</div>
+      <img src="/home/descfly/data/models/playroom/test/ours_30000/renders/00022.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle16">render</div>
+      <div class="slider-container" id="imageScroll16"></div>
+    </div>
+    
+    <!-- 第17组图片 -->
+    <div class="image-container" id="group17">
+      <img src="/home/descfly/data/models/room/test/ours_30000/gt/00001.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle17">ground truth</div>
+      <img src="/home/descfly/data/models/room/test/ours_30000/renders/00001.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle17">render</div>
+      <div class="slider-container" id="imageScroll17"></div>
+    </div>
+  
+    <!-- 第18组图片 -->
+    <div class="image-container" id="group18">
+      <img src="/home/descfly/data/models/room/test/ours_30000/gt/00029.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle18">ground truth</div>
+      <img src="/home/descfly/data/models/room/test/ours_30000/renders/00029.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle18">render</div>
+      <div class="slider-container" id="imageScroll18"></div>
+    </div>
+
+    <!-- 第19组图片 -->
+    <div class="image-container" id="group19">
+      <img src="/home/descfly/data/models/stump/test/ours_30000/gt/00001.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle19">ground truth</div>
+      <img src="/home/descfly/data/models/stump/test/ours_30000/renders/00001.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle19">render</div>
+      <div class="slider-container" id="imageScroll19"></div>
+    </div>
+  
+      <!-- 第20组图片 -->
+    <div class="image-container" id="group20">
+      <img src="/home/descfly/data/models/stump/test/ours_30000/gt/00006.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle20">ground truth</div>
+      <img src="/home/descfly/data/models/stump/test/ours_30000/renders/00006.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle20">render</div>
+      <div class="slider-container" id="imageScroll20"></div>
+    </div>
+
+    <!-- 第21组图片 -->
+    <div class="image-container" id="group21">
+      <img src="/home/descfly/data/models/train/test/ours_30000/gt/00001.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle21">ground truth</div>
+      <img src="/home/descfly/data/models/train/test/ours_30000/renders/00001.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle21">render</div>
+      <div class="slider-container" id="imageScroll21"></div>
+    </div>
+  
+    <!-- 第22组图片 -->
+    <div class="image-container" id="group22">
+      <img src="/home/descfly/data/models/train/test/ours_30000/gt/00030.png" alt="ground truth" class="left-image">
+      <div class="image-title left-image-title" id="leftTitle22">ground truth</div>
+      <img src="/home/descfly/data/models/train/test/ours_30000/renders/00030.png" alt="render" class="right-image">
+      <div class="image-title right-image-title" id="rightTitle22">render</div>
+      <div class="slider-container" id="imageScroll22"></div>
+    </div>
+  </div>
+
+  <script>
+    function initImageSlider(groupId, leftTitleId, rightTitleId, leftImageClass, rightImageClass, sliderId) {
+      const container = document.getElementById(groupId);
+      const leftImage = container.querySelector(leftImageClass);
+      const rightImage = container.querySelector(rightImageClass);
+      const leftTitle = document.getElementById(leftTitleId);
+      const rightTitle = document.getElementById(rightTitleId);
+      const imageScroll = document.getElementById(sliderId);
+      const containerWidth = container.offsetWidth;
+
+      // 初始滑块位置
+      imageScroll.style.left = '0%';
+
+      container.addEventListener('mousemove', function (e) {
+        const mouseX = e.clientX - container.getBoundingClientRect().left;
+        const percentage = Math.max(0, Math.min(99, (mouseX / containerWidth) * 100));
+        imageScroll.style.left = `${percentage}%`;
+        updateImages(leftImage, rightImage, percentage);
+        handleTitleVisibility(percentage, leftTitle, rightTitle);
+      });
+
+      function updateImages(leftImage, rightImage, percentage) {
+        leftImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+        rightImage.style.clipPath = `inset(0 0 0 ${percentage}%)`;
+      }
+
+      function handleTitleVisibility(percentage, leftTitle, rightTitle) {
+        if (percentage >= 90 & percentage <= 100) {
+          leftTitle.style.opacity = '1'; // 左图标题显示
+          rightTitle.style.opacity = '0'; // 右图标题消失
+        } 
+        else if (percentage >= 15 & percentage <90) {
+          leftTitle.style.opacity = '1'; 
+          rightTitle.style.opacity = '1'; 
+        }
+        else {
+          leftTitle.style.opacity = '0'; 
+          rightTitle.style.opacity = '1'; 
+        }
+      }
+
+      updateImages(leftImage, rightImage, 0);
+    }
+
+    // 初始化多个滑动窗
+    initImageSlider('group1', 'leftTitle1', 'rightTitle1', '.left-image', '.right-image', 'imageScroll1');
+    initImageSlider('group2', 'leftTitle2', 'rightTitle2', '.left-image', '.right-image', 'imageScroll2');
+    initImageSlider('group3', 'leftTitle3', 'rightTitle3', '.left-image', '.right-image', 'imageScroll3');
+    initImageSlider('group4', 'leftTitle4', 'rightTitle4', '.left-image', '.right-image', 'imageScroll4');
+    initImageSlider('group5', 'leftTitle5', 'rightTitle5', '.left-image', '.right-image', 'imageScroll5');
+    initImageSlider('group6', 'leftTitle6', 'rightTitle6', '.left-image', '.right-image', 'imageScroll6');
+    initImageSlider('group7', 'leftTitle7', 'rightTitle7', '.left-image', '.right-image', 'imageScroll7');
+    initImageSlider('group8', 'leftTitle8', 'rightTitle8', '.left-image', '.right-image', 'imageScroll8');
+    initImageSlider('group9', 'leftTitle9', 'rightTitle9', '.left-image', '.right-image', 'imageScroll9');
+    initImageSlider('group10', 'leftTitle10', 'rightTitle10', '.left-image', '.right-image', 'imageScroll10');
+    initImageSlider('group11', 'leftTitle11', 'rightTitle11', '.left-image', '.right-image', 'imageScroll11');
+    initImageSlider('group12', 'leftTitle12', 'rightTitle12', '.left-image', '.right-image', 'imageScroll12');
+    initImageSlider('group13', 'leftTitle13', 'rightTitle13', '.left-image', '.right-image', 'imageScroll13');
+    initImageSlider('group14', 'leftTitle14', 'rightTitle14', '.left-image', '.right-image', 'imageScroll14');
+    initImageSlider('group15', 'leftTitle15', 'rightTitle15', '.left-image', '.right-image', 'imageScroll15');
+    initImageSlider('group16', 'leftTitle16', 'rightTitle16', '.left-image', '.right-image', 'imageScroll16');
+    initImageSlider('group17', 'leftTitle17', 'rightTitle17', '.left-image', '.right-image', 'imageScroll17');
+    initImageSlider('group18', 'leftTitle18', 'rightTitle18', '.left-image', '.right-image', 'imageScroll18');
+    initImageSlider('group19', 'leftTitle19', 'rightTitle19', '.left-image', '.right-image', 'imageScroll19');
+    initImageSlider('group20', 'leftTitle20', 'rightTitle20', '.left-image', '.right-image', 'imageScroll20');
+    initImageSlider('group21', 'leftTitle21', 'rightTitle21', '.left-image', '.right-image', 'imageScroll21');
+    initImageSlider('group22', 'leftTitle22', 'rightTitle22', '.left-image', '.right-image', 'imageScroll22');
+    
+  </script>
+
+</body>
+
+</html>
